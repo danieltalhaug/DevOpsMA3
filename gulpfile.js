@@ -5,6 +5,7 @@ var gulp = require('gulp');
 var less = requre('gulp-less');
 var path = require('path');
 var browserSync = require('browser-sync');
+var imagemin = require('gulp-imagemin');
 
 // Less
 gulp.task('less', function () {
@@ -24,7 +25,14 @@ gulp.task('browser-sync', function() {
     });
 });
 
+// Imagemin
+gulp.task('minify-images', function() {
+    gulp.src('images/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('dist/resized-images'))
+});
+
 // Watch files for changes
-gulp.task('default', ['less', 'browser-sync'], function() {
-    gulp.watch('less/*.less', ['less']);
+gulp.task('default', ['less', 'browser-sync', 'minify-images'], function() {
+    gulp.watch("less/*.less", ['less']);
 })
